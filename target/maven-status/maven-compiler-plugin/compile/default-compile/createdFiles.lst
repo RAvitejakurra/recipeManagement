@@ -1,0 +1,5 @@
+com\recipes\RecipeManagementApplication.class
+com\recipes\service\RecipeService.class
+com\recipes\controller\RecipeController.class
+com\recipes\repository\RecipeRepository.class
+com\recipes\model\Recipe.class
