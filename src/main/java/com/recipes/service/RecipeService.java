@@ -1,63 +1,66 @@
 package com.recipes.service;
 
+import com.recipes.model.Recipe;
+import com.recipes.repository.RecipeRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.recipes.model.Recipe;
-import com.recipes.repository.RecipeRepository;
-
 @Service
+@RequiredArgsConstructor
 public class RecipeService {
-	
-	@Autowired
-	private RecipeRepository recipeRepository;
-	
-	  // Save a new recipe
+
+    private final RecipeRepository recipeRepository;
+
     public Recipe saveRecipe(Recipe recipe) {
-        return recipeRepository.save(recipe);  // Uses built-in MongoRepository method
+        return recipeRepository.save(recipe);
     }
 
-    // Get all recipes
     public List<Recipe> getAllRecipes() {
-        return recipeRepository.findAll();  // Uses built-in method
+        return recipeRepository.findAll();
     }
 
-    // Get a recipe by ID
     public Optional<Recipe> getRecipeById(String id) {
         return recipeRepository.findById(id);
     }
 
-    // Delete a recipe by ID
     public void deleteRecipeById(String id) {
-        recipeRepository.deleteById(id);  // Uses built-in method
+        recipeRepository.deleteById(id);
     }
 
-    // Get all vegetarian recipes
     public List<Recipe> getVegetarianRecipes() {
         return recipeRepository.findByVegetarian(true);
     }
 
-    // Get recipes by number of servings
     public List<Recipe> getRecipesByServings(int servings) {
         return recipeRepository.findByServings(servings);
     }
 
-    // Get recipes containing a specific ingredient
     public List<Recipe> getRecipesWithIngredient(String ingredient) {
         return recipeRepository.findByIngredientsContaining(ingredient);
     }
 
-    // Get recipes excluding a specific ingredient
     public List<Recipe> getRecipesWithoutIngredient(String ingredient) {
-        return recipeRepository.findByIngredientsNotContaining(ingredient);
+        return recipeRepository.findAll()
+                .stream()
+                .filter(recipe -> !recipe.getIngredients().contains(ingredient))
+                .toList();
     }
 
-    // Search recipes by instructions (text search)
     public List<Recipe> searchRecipesByInstruction(String keyword) {
         return recipeRepository.findByInstructionsContainingIgnoreCase(keyword);
     }
 
+    public Optional<Recipe> updateRecipe(String id, Recipe updatedRecipe) {
+        return recipeRepository.findById(id).map(recipe -> {
+            recipe.setName(updatedRecipe.getName());
+            recipe.setVegetarian(updatedRecipe.isVegetarian());
+            recipe.setServings(updatedRecipe.getServings());
+            recipe.setIngredients(updatedRecipe.getIngredients());
+            recipe.setInstructions(updatedRecipe.getInstructions());
+            return recipeRepository.save(recipe);
+        });
+    }
 }

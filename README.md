@@ -13,63 +13,42 @@ This is a standalone Java-based RESTful application that allows users to manage 
   - Text search within cooking instructions
 - API documentation using Swagger
 - Data persistence with MongoDB
-- Unit and integration tests (TBD)
+- Unit and integration tests
 
 ## Tech Stack
 - Backend: Java 17, Spring Boot, Spring Security, JWT
 - Database: MongoDB
+- API Documentation: Swagger UI
 - Build Tool: Maven
-- Testing: JUnit 5, Mockito (TBD)
 
 ## Installation & Setup
+1. Clone the repository:
+   git clone https://github.com/your-repo/recipe-management.git
+   
+2. Ensure MongoDB is running:
 
-### Prerequisites
-- Java 17 or later installed
-- Maven installed
-- MongoDB running locally or remotely
+   mongod --dbpath <your-db-path>
 
-## Clone the Repository
-- git clone https://github.com/RAvitejakurra/recipe-management.git
+3. Build and run the project:
 
-## Setup Environment Variables
-Modify `src/main/resources/application.properties` to match your MongoDB connection:
-```
-spring.data.mongodb.uri=mongodb://localhost:27017/recipe_db
-spring.data.mongodb.database=recipe_db
-```
+   mvn clean install
+   mvn spring-boot:run
 
-## Run the Application
-```sh
-mvn spring-boot:run
-```
-
-The application will start at `http://localhost:8080`.
+## API Endpoints
+- `POST /recipes` - Create a new recipe
+- `GET /recipes` - Retrieve all recipes
+- `GET /recipes/{id}` - Retrieve a recipe by ID
+- `PUT /recipes/{id}` - Update a recipe
+- `DELETE /recipes/{id}` - Delete a recipe
+- `GET /recipes/search?vegetarian=true&include=potatoes` - Search for recipes
 
 ## API Documentation
-Once the application is running, access the Swagger API documentation at:
-
-http://localhost:8080/swagger-ui.html
-
+The application provides Swagger UI for API testing.
+Access it at: [http://localhost:8080/swagger-ui/](http://localhost:8080/swagger-ui/)
 
 ## Running Tests
-```sh
+To run unit and integration tests, execute:
+
 mvn test
-```
-(TBD: Include unit and integration tests)
 
-## Deployment Guide
-To create a runnable JAR file:
-```sh
-mvn clean package
-java -jar target/recipe-management-1.0.0.jar
-```
-
-## Future Enhancements
-- Implement missing unit and integration tests
-- Add more robust exception handling
-- Improve search filtering efficiency
-
-
-### Contributors
-Maintainer: Kurra Raviteja
 
