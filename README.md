@@ -30,7 +30,7 @@ This is a standalone Java-based RESTful application that allows users to manage 
 
 ## Clone the Repository
 ```sh
-git clone <repository_url>
+git clone <https://github.com/RAvitejakurra/recipe-management>
 cd recipe-management
 ```
 
