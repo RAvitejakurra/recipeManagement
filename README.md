@@ -29,10 +29,9 @@ This is a standalone Java-based RESTful application that allows users to manage 
 - MongoDB running locally or remotely
 
 ## Clone the Repository
-```sh
-git clone <repository_url>
-cd recipe-management
-```
+
+git clone https://github.com/RAvitejakurra/recipe-management.git
+
 
 ## Setup Environment Variables
 Modify `src/main/resources/application.properties` to match your MongoDB connection:
