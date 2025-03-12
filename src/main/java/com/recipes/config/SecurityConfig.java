@@ -13,32 +13,32 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    // security Disabled for Tests
+    // Security Disabled for Tests
     @Bean
     @Profile("test") 
     public SecurityFilterChain testSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()
-            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()); 
+            .csrf(csrf -> csrf.disable()) // ✅ Ensure CSRF is disabled for test mode
+            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         return http.build();
     }
 
-    // security Enabled for Normal Runs
+    // Security Enabled for Normal Runs
     @Bean
     @Profile("!test") 
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .csrf(csrf -> csrf.disable()) // ✅ Disable CSRF for APIs
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/recipes/**").authenticated()
                 .anyRequest().permitAll()
             )
-            .formLogin()
-            .and()
-            .httpBasic();
+            .httpBasic(); // ✅ Ensure Basic Auth is enabled
+
         return http.build();
     }
 
-    //In-Memory User Authentication (For Normal API Usage)
+    // In-Memory User Authentication (For Normal API Usage)
     @Bean
     @Profile("!test") 
     public UserDetailsService userDetailsService() {
