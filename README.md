@@ -10,7 +10,7 @@ This is a standalone Java-based RESTful application that allows users to manage 
   - Text search within cooking instructions.
 
 # Features
-- User authentication using JWT-based security.
+- User authentication using default security.
 - CRUD operations for managing recipes.
 - Filtering options for ingredients, servings, and instructions.
 - API documentation using Swagger.
@@ -18,7 +18,7 @@ This is a standalone Java-based RESTful application that allows users to manage 
 - Unit and integration tests.
 
 #  Tech Stack
-- **Backend:** Java 17, Spring Boot, Spring Security, JWT.
+- **Backend:** Java 17, Spring Boot, Spring Security.
 - **Database:** MongoDB.
 - **API Documentation:** Swagger UI.
 - **Build Tool:** Maven.
