@@ -8,8 +8,13 @@ import java.util.List;
 
 @Repository
 public interface RecipeRepository extends MongoRepository<Recipe, String> {
-    List<Recipe> findByVegetarian(boolean vegetarian);
-    List<Recipe> findByServings(int servings);
-    List<Recipe> findByIngredientsContaining(String ingredient);
-    List<Recipe> findByInstructionsContainingIgnoreCase(String keyword);
+	List<Recipe> findByVegetarian(boolean vegetarian);
+
+	List<Recipe> findByServings(int servings);
+
+	List<Recipe> findByIngredientsContaining(String ingredient);
+
+	List<Recipe> findByInstructionsContainingIgnoreCase(String keyword);
+
+	List<Recipe> findByIngredientsNotContaining(String ingredient);
 }
