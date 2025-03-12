@@ -86,16 +86,6 @@ java -jar target/recipe-management.jar
 | `GET` | `/recipes/exclude-ingredient?ingredient=salmon` | Get recipes that **do NOT** contain "salmon" |
 | `GET` | `/recipes/instructions?keyword=oven` | Get recipes that mention "oven" in instructions |
 
-# Authentication (JWT)
-| Method | Endpoint | Description |
-|--------|---------|-------------|
-| `POST` | `/auth/register` | Register a new user |
-| `POST` | `/auth/login` | Authenticate and get a JWT token |
-
-- **Use the token for protected endpoints:**
-
-  Authorization: Bearer <your-token>
-
 
 # API Documentation (Swagger UI)
 Once the application is running, access API documentation at:
