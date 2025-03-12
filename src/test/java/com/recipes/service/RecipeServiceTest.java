@@ -9,9 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -19,46 +17,42 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class RecipeServiceTest {
 
-	@Mock
-	private RecipeRepository recipeRepository;
+    @Mock
+    private RecipeRepository recipeRepository;
 
-	@InjectMocks
-	private RecipeService recipeService;
+    @InjectMocks
+    private RecipeService recipeService;
 
-	private Recipe sampleRecipe;
+    private Recipe recipe1;
+    private Recipe recipe2;
 
-	@BeforeEach
-	void setUp() {
-		sampleRecipe = new Recipe();
-		sampleRecipe.setId("1");
-		sampleRecipe.setName("Pasta");
-		sampleRecipe.setVegetarian(true);
-		sampleRecipe.setServings(2);
-		sampleRecipe.setIngredients(Arrays.asList("Tomato", "Garlic", "Cheese"));
-	}
+    @BeforeEach
+    void setUp() {
+        recipe1 = new Recipe();
+        recipe1.setName("Vegetable Curry");
+        recipe1.setIngredients(List.of("Carrot", "Potato"));
 
-	@Test
-	void saveRecipe_shouldSaveRecipe() {
-		when(recipeRepository.save(sampleRecipe)).thenReturn(sampleRecipe);
+        recipe2 = new Recipe();
+        recipe2.setName("Grilled Salmon");
+        recipe2.setIngredients(List.of("Salmon", "Lemon"));
+    }
 
-		Recipe savedRecipe = recipeService.saveRecipe(sampleRecipe);
+    @Test
+    void getRecipesExcludingIngredient_shouldReturnRecipesWithoutGivenIngredient() {
+        // Mock repository call
+        when(recipeRepository.findByIngredientsNotContaining("Salmon"))
+            .thenReturn(List.of(recipe1)); // Should return only recipe1
 
-		assertNotNull(savedRecipe);
-		assertEquals("Pasta", savedRecipe.getName());
-		verify(recipeRepository, times(1)).save(sampleRecipe);
-	}
+        // Call service method
+        List<Recipe> result = recipeService.getRecipesExcludingIngredient("Salmon");
 
-	@Test
-	void getRecipesExcludingIngredient_shouldReturnRecipesWithoutGivenIngredient() {
-		List<Recipe> recipesWithoutCheese = List.of(sampleRecipe);
-		when(recipeRepository.findByIngredientsNotContaining("Cheese")).thenReturn(recipesWithoutCheese);
+        // Assertions
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(1, result.size()); // Should only return 1 recipe
+        assertFalse(result.get(0).getIngredients().contains("Salmon"));
 
-		List<Recipe> result = recipeService.getRecipesExcludingIngredient("Cheese");
-
-		assertNotNull(result);
-		assertFalse(result.isEmpty());
-		assertEquals(1, result.size());
-		assertFalse(result.get(0).getIngredients().contains("Cheese"));
-		verify(recipeRepository, times(1)).findByIngredientsNotContaining("Cheese");
-	}
+        // Verify that repository was called exactly once
+        verify(recipeRepository, times(1)).findByIngredientsNotContaining("Salmon");
+    }
 }

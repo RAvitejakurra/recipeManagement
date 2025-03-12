@@ -58,7 +58,6 @@ public class RecipeController {
 		return ResponseEntity.ok(recipeService.getRecipesWithInstructionsContaining(keyword));
 	}
 
-	// New endpoint for filtering recipes that do NOT contain a specific ingredient
 	@GetMapping("/exclude-ingredient")
 	public ResponseEntity<List<Recipe>> getRecipesExcludingIngredient(@RequestParam String ingredient) {
 		return ResponseEntity.ok(recipeService.getRecipesExcludingIngredient(ingredient));
